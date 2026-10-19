@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materi UNHAN - SIGMORA</title>
+<style>
+  /* ================= RESET & FONT ================= */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  
+  :root{
+    --core:#0b3c2a;
+    --core-dark:#072a1d;
+    --accent:#F4A259;
+    --bg-main:#F8FAF9;
+    --text-primary:#1C2B2B;
+    --text-secondary:#5A6B6B;
+    --border:#E6EFEA;
+  }
+
+  body { background: var(--bg-main); color: var(--text-primary); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+  
+  /* ================= NAVBAR ================= */
+  .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,.03); position: sticky; top: 0; z-index: 100; }
+  .brand { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 22px; color: var(--core); display: flex; align-items: center; gap: 12px; text-decoration: none; letter-spacing: -1px; text-transform: uppercase; }
+  .brand img { height: 40px; border-radius: 8px; }
+  .btn-back { color: var(--text-secondary); font-weight: 700; text-decoration: none; font-size: 15px; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+  .btn-back:hover { color: var(--accent); transform: translateX(-3px); }
+
+  /* ================= CONTAINER & TITLE ================= */
+  .katalog-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
+  
+  .page-title { text-align: center; margin-bottom: 30px; }
+  .page-title h1 { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: var(--core); margin-bottom: 10px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+  .page-title p { color: var(--text-secondary); font-size: 1rem; font-weight: 500; }
+
+  /* ================= LINK REKRUTMEN ================= */
+  .link-rekrutmen-wrapper { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; justify-content: center; }
+  .btn-rekrutmen { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; text-decoration: none; color: #fff; transition: 0.2s; }
+  .btn-rekrutmen:hover { transform: translateY(-2px); opacity: 0.9; }
+  .btn-kemhan { background: #1E3A8A; } /* Biru Kemhan */
+  .btn-unhan { background: #991B1B; } /* Merah Unhan */
+  .btn-penerimaan { background: #B45309; } /* Oranye Pendaftaran */
+
+  /* ================= GRID & CARD ================= */
+  .grid-katalog { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+  
+  .card-materi { border-radius: 20px; overflow: hidden; position: relative; height: 280px; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  .card-materi:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(11,60,42,.2); }
+  
+  .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,42,29,0.95) 0%, rgba(7,42,29,0.5) 60%, transparent 100%); z-index: 1; }
+  
+  .card-content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; justify-content: space-between; }
+  
+  /* Header Card (Tanpa Nomor) */
+  .card-header { margin-bottom: 10px; }
+  .card-materi h3 { font-size: 1.3rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  
+  /* Deskripsi */
+  .card-desc { font-size: 0.9rem; color: #D6E4DD; margin-bottom: 20px; }
+  
+  /* Tombol Buka */
+  .btn-buka { display: inline-block; text-align: center; background: #fff; color: var(--core); padding: 12px 15px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 0.95rem; transition: 0.2s; border: none; cursor: pointer; width: 100%; text-transform: uppercase; margin-top: auto; }
+  .btn-buka:hover { background: var(--accent); color: var(--core-dark); }
+
+  /* ================= MODAL POP-UP ================= */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(7, 42, 29, 0.85); backdrop-filter: blur(5px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.active { display: flex; }
+  
+  .modal-box { background: #fff; border-radius: 24px; width: 100%; max-width: 420px; padding: 35px 30px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  
+  .modal-box h3 { font-size: 1.5rem; color: var(--core); font-weight: 800; margin-bottom: 8px; }
+  .modal-box p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 25px; }
+  
+  .pilihan-btn { display: flex; align-items: center; gap: 18px; padding: 18px 20px; border-radius: 16px; text-decoration: none; font-weight: 700; font-size: 1.05rem; margin-bottom: 15px; transition: 0.3s; border: 2px solid transparent; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+  
+  .pilihan-pdf { background: #FEF2F2; color: #991B1B; }
+  .pilihan-pdf:hover { background: #FEE2E2; border-color: #EF4444; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(239, 68, 68, 0.15); }
+  .pilihan-pdf svg { color: #EF4444; }
+  
+  .pilihan-yt { background: #FFFBEB; color: #92400E; }
+  .pilihan-yt:hover { background: #FEF3C7; border-color: #F59E0B; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(245, 158, 11, 0.15); }
+  .pilihan-yt svg { color: #F59E0B; }
+  
+  .pilihan-icon { flex-shrink: 0; }
+  .pilihan-text span { display: block; font-size: 0.8rem; font-weight: 500; opacity: 0.8; margin-top: 4px; }
+  
+  .btn-tutup { background: transparent; color: #9CA3AF; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+  .btn-tutup:hover { color: var(--core); }
+
+  /* ================= FOOTER ================= */
+  .footer-wrapper { background: #072a1d; width: 100%; margin-top: 60px; }
+  .footer-content { max-width: 1100px; margin: 0 auto; color: rgba(255,255,255,.6); text-align: center; padding: 40px 20px; font-size: 0.9rem; }
+  
+  .social-horizontal { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 25px; }
+  .social-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; cursor: pointer; border: none; transition: 0.3s; background: rgba(255,255,255,0.1); }
+  .social-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px) scale(1.05); }
+
+  /* ================= FLOATING WA ================= */
+  .float-wa { position: fixed; bottom: 30px; right: 30px; background: #22C55E; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(34,197,94,0.4); z-index: 999; transition: 0.3s; text-decoration: none; }
+  .float-wa:hover { transform: scale(1.1); background: #16A34A; }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 900px) {
+    .grid-katalog { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .navbar { padding: 15px 20px; }
+    .brand { font-size: 18px; }
+    .brand img { height: 30px; }
+    .page-title h1 { font-size: 1.8rem; }
+    .grid-katalog { gap: 15px; }
+    .card-materi { height: 220px; padding: 20px; border-radius: 16px; }
+    .card-materi h3 { font-size: 1.1rem; }
+    .card-desc { font-size: 0.75rem; margin-bottom: 10px; }
+    .btn-buka { padding: 10px; font-size: 0.8rem; }
+    .float-wa { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+    
+    /* Modal Responsive */
+    .modal-box { padding: 25px 20px; }
+    .pilihan-btn { padding: 15px; gap: 12px; }
+    .pilihan-btn svg { width: 28px; height: 28px; }
+    .pilihan-btn { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+    <a href="https://web-bimbel-lu.vercel.app" class="brand">
+      <img src="https://i.imgur.com/fyKfXaZ.png" alt="Logo">
+      SIGMORA
+    </a>
+    <a href="https://web-bimbel-lu.vercel.app" class="btn-back">← Kembali</a>
+  </nav>
+
+  <!-- ================= KONTEN UTAMA ================= -->
+  <main class="katalog-container">
+    <div class="page-title">
+      <h1>Katalog Materi UNHAN</h1>
+      <p>Persiapan lengkap Seleksi Masuk Universitas Pertahanan Republik Indonesia.</p>
+    </div>
+
+    <!-- LINK REKRUTMEN RESMI -->
+    <div class="link-rekrutmen-wrapper">
+      <a href="https://www.kemhan.go.id/" class="btn-rekrutmen btn-kemhan">Kementerian Pertahanan</a>
+      <a href="https://unhanri.ac.id/" class="btn-rekrutmen btn-unhan">Website UNHAN RI</a>
+      <a href="https://penerimaan.unhanri.ac.id/" class="btn-rekrutmen btn-penerimaan">Portal Penerimaan</a>
+    </div>
+    
+    <!-- GRID KATALOG (3 KOLOM) -->
+    <div class="grid-katalog">
+      
+      <!-- 1: TKBI -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>TKBI</h3>
+          </div>
+          <div class="card-desc">Tes Kemampuan Bahasa Inggris (Setara TOEFL) dengan skor minimal 500.</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+      <!-- 2: Psikologi Online -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>Psikologi Online</h3>
+          </div>
+          <div class="card-desc">Pengujian aspek kecerdasan, kepribadian, dan stabilitas emosi.</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+      <!-- 3: TPS -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>TPS</h3>
+          </div>
+          <div class="card-desc">Tes Potensi Skolastik. Penalaran umum, kuantitatif, dan literasi.</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+      <!-- 4: Mental Ideologi -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>Mental Ideologi</h3>
+          </div>
+          <div class="card-desc">Tes tertulis dan wawancara Pancasila, UUD 1945, dan loyalitas NKRI.</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+      <!-- 5: Kesehatan & Garjas -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>Kesehatan & Garjas</h3>
+          </div>
+          <div class="card-desc">Rikkes (Jiwa & Fisik) serta Kesamaptaan (Lari, Pull-up, Push-up, Renang).</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+      <!-- 6: Wawancara Akademik -->
+      <div class="card-materi" style="background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop') center/cover;">
+        <div class="card-overlay"></div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>Wawancara Akademik</h3>
+          </div>
+          <div class="card-desc">Sesi tanya jawab mendalam terkait motivasi dan kesiapan studi.</div>
+          <button class="btn-buka" onclick="bukaModal('https://drive.google.com/file/d/1_zyo5J3F3-M3kxZKxXdX0UZ60bDn2Phs/view?usp=sharing', 'https://www.youtube.com/@BrainUp_ac')">Buka Modul</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= MODAL POP-UP ================= -->
+  <div class="modal-overlay" id="modalPilihan">
+    <div class="modal-box">
+      <h3>Pilih Media Belajar</h3>
+      <p>Kamu mau baca materi atau nonton video?</p>
+      
+      <!-- Tombol PDF -->
+      <a href="#" id="linkPdf" class="pilihan-btn pilihan-pdf">
+        <div class="pilihan-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <div class="pilihan-text">
+          Baca Modul PDF
+          <span>Materi lengkap & ringkasan</span>
+        </div>
+      </a>
+      
+      <!-- Tombol YouTube -->
+      <a href="#" id="linkYt" class="pilihan-btn pilihan-yt">
+        <div class="pilihan-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+        </div>
+        <div class="pilihan-text">
+          Tonton Video YT
+          <span>Penjelasan langsung via video</span>
+        </div>
+      </a>
+      
+      <button class="btn-tutup" onclick="tutupModal()">Nanti Saja</button>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <div class="footer-wrapper">
+    <div class="footer-content">
+      <div class="social-horizontal">
+        <a href="https://www.instagram.com/folkative/" target="_blank" class="social-btn" title="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="https://www.tiktok.com/@brainup.ac" target="_blank" class="social-btn" title="TikTok">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@BrainUp_ac" target="_blank" class="social-btn" title="YouTube">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.582 6.186a2.6 2.6 0 0 0-1.838-1.84C18.16 4 12 4 12 4s-6.16 0-7.744.346a2.6 2.6 0 0 0-1.838 1.84C2 7.78 2 12 2 12s0 4.22.418 5.814a2.6 2.6 0 0 0 1.838 1.84C5.84 20 12 20 12 20s6.16 0 7.744-.346a2.6 2.6 0 0 0 1.838-1.84C22 16.22 22 12 22 12s0-4.22-.418-5.814zM9.996 15.464V8.536L16 12l-6.004 3.464z"/></svg>
+        </a>
+      </div>
+      <p>© 2026 SIGMORA - Bimbel & Platform TryOut Sekolah Kedinasan.</p>
+      <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 10px;">Membangun masa depan, satu tryout dalam satu waktu.</p>
+    </div>
+  </div>
+
+  <!-- ================= FLOATING WHATSAPP ================= -->
+  <a href="https://wa.me/62895615420009?text=Halo%20Admin%20SIGMORA,%20saya%20ingin%20bertanya" target="_blank" class="float-wa" title="Hubungi Admin">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.51 2 2.014 6.496 2.014 12.017c0 1.766.461 3.49 1.336 5.012L2 22l5.108-1.338A9.968 9.968 0 0012.03 22c5.521 0 10.017-4.496 10.017-10.017S17.552 2 12.031 2zm5.223 14.03c-.222.625-1.286 1.196-1.762 1.242-.476.047-1.065.21-3.488-1.007-2.914-1.466-4.763-4.478-4.908-4.68-.144-.203-1.166-1.554-1.166-2.966 0-1.412.735-2.104 1.003-2.392.268-.288.587-.36.783-.36.196 0 .392.004.563.013.183.01.43-.07.67.515.245.595.833 2.053.908 2.203.075.15.125.325.025.525-.1.2-.375.604-.6.83-.225.225-.35.375-.225.6.125.225.556.917 1.192 1.486.816.728 1.504.955 1.717 1.062.212.107.338.088.463-.054.125-.142.535-.625.678-.838.143-.213.286-.178.48-.104.195.074 1.238.584 1.45.69.212.107.35.16.4.25.05.09.05.522-.172 1.147z"/></svg>
+  </a>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    function bukaModal(linkPdf, linkYt) {
+      const modal = document.getElementById('modalPilihan');
+      const btnPdf = document.getElementById('linkPdf');
+      const btnYt = document.getElementById('linkYt');
+      
+      if(linkPdf && linkPdf !== '') { 
+        btnPdf.href = linkPdf; 
+        btnPdf.style.display = 'flex'; 
+      } else { 
+        btnPdf.style.display = 'none'; 
+      }
+      
+      if(linkYt && linkYt !== '') { 
+        btnYt.href = linkYt; 
+        btnYt.style.display = 'flex'; 
+      } else { 
+        btnYt.style.display = 'none'; 
+      }
+
+      modal.classList.add('active');
+    }
+
+    function tutupModal() { 
+      document.getElementById('modalPilihan').classList.remove('active'); 
+    }
+
+    document.getElementById('modalPilihan').addEventListener('click', function(e) { 
+      if (e.target === this) { 
+        tutupModal(); 
+      } 
+    });
+  </script>
+
+</body>
+</html>
